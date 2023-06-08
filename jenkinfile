@@ -1,6 +1,11 @@
 pipeline {
     agent any
     
+    environment {
+        TOMCAT_HOME = /home/ec2-user/apache-tomcat-9.0.75  // Set the path to your Tomcat installation
+        APP_NAME = 'my-webapp' // Set your web application name
+    }
+    
     stages {
         stage('Build') {
             steps {
@@ -18,8 +23,8 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                // Add the necessary deployment commands here
-                sh 'mvn deploy'
+                // Copy the new application WAR file
+                sh " cp /root/.jenkins/workspace/Clone-repo/target/WebApp.war  /home/ec2-user/apache-tomcat-9.0.75/webapps"                             
             }
         }
     }
